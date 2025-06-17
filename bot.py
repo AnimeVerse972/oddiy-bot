@@ -92,12 +92,19 @@ def handle_message(update: Update, context: CallbackContext):
             update.message.reply_text(f"⚠️ {channel} kanal tekshiruvida xatolik. Iltimos, keyinroq urinib ko‘ring.")
             return
 
-    if text in anime_posts:
-        post = anime_posts[text]
-        link = f"https://t.me/{post['channel'].strip('@')}/{post['message_id']}"
-        button = InlineKeyboardMarkup([[InlineKeyboardButton("TOMOSHA QILISH", url=link)]])
-        context.bot.forward_message(chat_id=user_id, from_chat_id=post['channel'], message_id=post['message_id'])
-        update.message.reply_text("🔗 Post link:", reply_markup=button)
+   if text in anime_posts:
+    post = anime_posts[text]
+    link = f"https://t.me/{post['channel'].strip('@')}/{post['message_id']}"
+    button = InlineKeyboardMarkup([[InlineKeyboardButton("⬇️ TOMOSHA QILISH", url=link)]])
+
+    # postni tugma bilan yuborish
+    context.bot.copy_message(
+        chat_id=user_id,
+        from_chat_id=post['channel'],
+        message_id=post['message_id'],
+        reply_markup=button
+    )
+
     elif text == "📢 Reklama":
         update.message.reply_text("Reklama uchun @DiyorbekPTMA ga murojat qiling.")
     elif text == "💼 Homiylik":
